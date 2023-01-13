@@ -16,7 +16,7 @@ export function getHtmlTemplate(avatar : string, discordId : string, isSurgenceL
                 .banner {
                     width: 100%;
                     height: 100%;
-                    background-image: url(${isSurgenceListed ? "https://cdn.discordapp.com/attachments/1060306505766805525/1063442169458872400/I_have_been_promoted_33.png" : "https://media.discordapp.net/attachments/1060306505766805525/1063442169865699419/I_have_been_promoted_34.png"});
+                    background-image: url(${isSurgenceListed ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/surgence-listed.png" : "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/battalion-leader.png"});
                     background-size: cover;
                 }
                 .profile {
