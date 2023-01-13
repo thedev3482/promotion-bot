@@ -1,0 +1,21 @@
+{
+  "name": "promotion-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot who generates promotion images for user in Surgence",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "dev": "nodemon index.ts",
+    "deployCommands": "node deploy-commands.js"
+  },
+  "keywords": [],
+  "author": "Animot",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.0",
+    "node-html-to-image": "^3.2.4",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0"
+  }
+}
