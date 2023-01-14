@@ -54,7 +54,7 @@ client.on('interactionCreate', async interaction => {
             const attachment = await getAttachment(avatar, user, true, imageName);
 
             const embed = {
-              color: 0x0099ff,
+              color: 0x4ABBBB,
               image: {
                 url: "attachment://" + imageName,
               }
@@ -68,7 +68,7 @@ client.on('interactionCreate', async interaction => {
             const attachment = await getAttachment(avatar, user, false, imageName);
 
             const embed = {
-              color: 0x0099ff,
+              color: 0x3597C7,
               image: {
                 url: "attachment://" + imageName,
               }
