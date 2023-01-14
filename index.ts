@@ -22,7 +22,7 @@ client.once('ready', async () => {
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
-    if (interaction.commandName === 'banner') {
+    if (interaction.commandName === "promote") {
       const user = interaction.options.getUser("user");
       const member = interaction.guild.members.cache.get(user.id);
       const roles = member._roles;
@@ -60,6 +60,7 @@ client.on('interactionCreate', async interaction => {
               }
             };
 
+            console.log(user.username + "#" + user.discriminator +" was promoted to Surgence Listed (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
             await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });  
 
           } else if(isBattalionLeader) { // Check if Battalion Leader
@@ -73,6 +74,7 @@ client.on('interactionCreate', async interaction => {
               }
             };
 
+            console.log(user.username + "#" + user.discriminator +" was promoted to Battalion Leader (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
             await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
 
           } else { // If user isn't promotable

@@ -2,7 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('banner')
+        .setName('promote')
         .setDescription('Generates a promotion image!')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
         .addUserOption(option =>
