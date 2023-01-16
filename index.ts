@@ -22,6 +22,71 @@ client.once('ready', async () => {
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
+    if (interaction.commandName === "claim") {
+      const user = interaction.user;
+      const member = interaction.guild.members.cache.get(user.id);
+      const roles = member._roles;
+
+      await interaction.deferReply({ ephemeral: true });
+
+      let battalionLeader = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "battalion leader");
+      let surgenceListed = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "surgence listed");
+
+      try {
+        // Check if roles are defined
+        if(battalionLeader == undefined || surgenceListed == undefined) {
+          await interaction.editReply({ content: "The Battalion Leader and/or Surgence Listed roles aren't defined!", ephemeral: true }); 
+        } else {
+          const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
+          const isBattalionLeader = roles.find(role => role === battalionLeader.id);
+          const isSurgenceListed = roles.find(role => role === surgenceListed.id);
+          const imageName = isSurgenceListed ? "surgence-listed.png" : "battalion-leader.png";
+
+          // Build the Tweet-Button
+          const row = new ActionRowBuilder()
+            .addComponents(
+              new ButtonBuilder()
+                .setLabel('Tweet')
+                .setStyle(ButtonStyle.Link)
+                .setURL("https://twitter.com/compose/tweet")
+            );
+
+          if(isSurgenceListed) { // Check if Surgence Listed
+            const attachment = await getAttachment(avatar, user, true, imageName);
+
+            const embed = {
+              color: 0x4ABBBB,
+              image: {
+                url: "attachment://" + imageName,
+              }
+            };
+
+            console.log(user.username + "#" + user.discriminator +" claimed the Surgence Listed promotion image!");
+            await interaction.editReply({ embeds: [embed], files: [attachment], components: [row] });  
+
+          } else if(isBattalionLeader) { // Check if Battalion Leader
+            const attachment = await getAttachment(avatar, user, false, imageName);
+
+            const embed = {
+              color: 0x3597C7,
+              image: {
+                url: "attachment://" + imageName,
+              }
+            };
+
+            console.log(user.username + "#" + user.discriminator +" claimed the Battalion Leader promotion image!");
+            await interaction.editReply({ embeds: [embed], files: [attachment], components: [row] });
+
+          } else { // If user isn't promotable
+            await interaction.editReply({ content: "You can't generate a promotion image for yourself because you aren't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+              
+    }
+
     if (interaction.commandName === "promote") {
       const user = interaction.options.getUser("user");
       const member = interaction.guild.members.cache.get(user.id);
