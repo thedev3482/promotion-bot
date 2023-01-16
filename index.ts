@@ -27,15 +27,13 @@ client.on('interactionCreate', async interaction => {
       const member = interaction.guild.members.cache.get(user.id);
       const roles = member._roles;
 
-      await interaction.deferReply({ ephemeral: true });
-
       let battalionLeader = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "battalion leader");
       let surgenceListed = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "surgence listed");
 
       try {
         // Check if roles are defined
         if(battalionLeader == undefined || surgenceListed == undefined) {
-          await interaction.editReply({ content: "The Battalion Leader and/or Surgence Listed roles aren't defined!", ephemeral: true }); 
+          await interaction.reply({ content: "The Battalion Leader and/or Surgence Listed roles aren't defined!", ephemeral: true }); 
         } else {
           const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
           const isBattalionLeader = roles.find(role => role === battalionLeader.id);
@@ -52,6 +50,7 @@ client.on('interactionCreate', async interaction => {
             );
 
           if(isSurgenceListed) { // Check if Surgence Listed
+            await interaction.deferReply();
             const attachment = await getAttachment(avatar, user, true, imageName);
 
             const embed = {
@@ -62,9 +61,10 @@ client.on('interactionCreate', async interaction => {
             };
 
             console.log(user.username + "#" + user.discriminator +" claimed the Surgence Listed promotion image!");
-            await interaction.editReply({ embeds: [embed], files: [attachment], components: [row] });  
+            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
 
           } else if(isBattalionLeader) { // Check if Battalion Leader
+            await interaction.deferReply();
             const attachment = await getAttachment(avatar, user, false, imageName);
 
             const embed = {
@@ -75,10 +75,10 @@ client.on('interactionCreate', async interaction => {
             };
 
             console.log(user.username + "#" + user.discriminator +" claimed the Battalion Leader promotion image!");
-            await interaction.editReply({ embeds: [embed], files: [attachment], components: [row] });
+            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
 
           } else { // If user isn't promotable
-            await interaction.editReply({ content: "You can't generate a promotion image for yourself because you aren't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
+            await interaction.reply({ content: "You can't generate a promotion image for yourself because you aren't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
           }
         }
       } catch (error) {
