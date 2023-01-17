@@ -40,8 +40,8 @@ client.on('interactionCreate', async interaction => {
           const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
           const isBattalionLeader = roles.find(role => role === battalionLeader.id);
           const isSurgenceListed = roles.find(role => role === surgenceListed.id);
-          const isSpecialist= roles.find(role => role === surgenceListed.id);
-          const isAgent = roles.find(role => role === surgenceListed.id);
+          const isSpecialist= roles.find(role => role === specialist.id);
+          const isAgent = roles.find(role => role === agent.id);
           const imageName = isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
 
           // Build the Tweet-Button
@@ -137,8 +137,8 @@ client.on('interactionCreate', async interaction => {
           const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
           const isBattalionLeader = roles.find(role => role === battalionLeader.id);
           const isSurgenceListed = roles.find(role => role === surgenceListed.id);
-          const isSpecialist= roles.find(role => role === surgenceListed.id);
-          const isAgent = roles.find(role => role === surgenceListed.id);
+          const isSpecialist= roles.find(role => role === specialist.id);
+          const isAgent = roles.find(role => role === agent.id);
           const imageName = isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
 
           // Build the Tweet-Button
