@@ -49,36 +49,36 @@ client.on('interactionCreate', async interaction => {
                 .setURL("https://twitter.com/compose/tweet")
             );
 
-          if(isSurgenceListed) { // Check if Surgence Listed
-            await interaction.deferReply();
-            const attachment = await getAttachment(avatar, user, true, imageName);
+            if(isBattalionLeader) { // Check if Battalion Leader
+              await interaction.deferReply();
+              const attachment = await getAttachment(avatar, user, false, imageName);
+  
+              const embed = {
+                color: 0x3597C7,
+                image: {
+                  url: "attachment://" + imageName,
+                }
+              };
+  
+              console.log(user.username + "#" + user.discriminator +" claimed the Battalion Leader promotion image!");
+              await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
+  
+            } else if(isSurgenceListed) { // Check if Surgence Listed
+              await interaction.deferReply();
+              const attachment = await getAttachment(avatar, user, true, imageName);
 
-            const embed = {
-              color: 0x4ABBBB,
-              image: {
-                url: "attachment://" + imageName,
-              }
-            };
+              const embed = {
+                color: 0x4ABBBB,
+                image: {
+                  url: "attachment://" + imageName,
+                }
+              };
 
-            console.log(user.username + "#" + user.discriminator +" claimed the Surgence Listed promotion image!");
-            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
+              console.log(user.username + "#" + user.discriminator +" claimed the Surgence Listed promotion image!");
+              await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
 
-          } else if(isBattalionLeader) { // Check if Battalion Leader
-            await interaction.deferReply();
-            const attachment = await getAttachment(avatar, user, false, imageName);
-
-            const embed = {
-              color: 0x3597C7,
-              image: {
-                url: "attachment://" + imageName,
-              }
-            };
-
-            console.log(user.username + "#" + user.discriminator +" claimed the Battalion Leader promotion image!");
-            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
-
-          } else { // If user isn't promotable
-            await interaction.reply({ content: "You can't generate a promotion image for yourself because you aren't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
+            } else { // If user isn't promotable
+              await interaction.reply({ content: "You can't generate a promotion image for yourself because you aren't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
           }
         }
       } catch (error) {
@@ -114,21 +114,7 @@ client.on('interactionCreate', async interaction => {
                 .setURL("https://twitter.com/compose/tweet")
             );
 
-          if(isSurgenceListed) { // Check if Surgence Listed
-            await interaction.deferReply();
-            const attachment = await getAttachment(avatar, user, true, imageName);
-
-            const embed = {
-              color: 0x4ABBBB,
-              image: {
-                url: "attachment://" + imageName,
-              }
-            };
-
-            console.log(user.username + "#" + user.discriminator +" was promoted to Surgence Listed (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
-            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });  
-
-          } else if(isBattalionLeader) { // Check if Battalion Leader
+          if(isBattalionLeader) { // Check if Battalion Leader
             await interaction.deferReply();
             const attachment = await getAttachment(avatar, user, false, imageName);
 
@@ -141,6 +127,20 @@ client.on('interactionCreate', async interaction => {
 
             console.log(user.username + "#" + user.discriminator +" was promoted to Battalion Leader (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
             await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
+
+          } else if(isSurgenceListed) { // Check if Surgence Listed
+            await interaction.deferReply();
+            const attachment = await getAttachment(avatar, user, true, imageName);
+
+            const embed = {
+              color: 0x4ABBBB,
+              image: {
+                url: "attachment://" + imageName,
+              }
+            };
+
+            console.log(user.username + "#" + user.discriminator +" was promoted to Surgence Listed (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
+            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });  
 
           } else { // If user isn't promotable
             await interaction.reply({ content: "You can't generate a promotion image for " + user.username + "#" + user.discriminator + " because he isn't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
