@@ -29,16 +29,20 @@ client.on('interactionCreate', async interaction => {
 
       let battalionLeader = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "battalion leader");
       let surgenceListed = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "surgence listed");
+      let specialist = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "specialist");
+      let agent = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "agent");
 
       try {
         // Check if roles are defined
-        if(battalionLeader == undefined || surgenceListed == undefined) {
-          await interaction.reply({ content: "The Battalion Leader and/or Surgence Listed roles aren't defined!", ephemeral: true }); 
+        if(battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined) {
+          await interaction.reply({ content: "Some promotion roles aren't defined!", ephemeral: true }); 
         } else {
           const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
           const isBattalionLeader = roles.find(role => role === battalionLeader.id);
           const isSurgenceListed = roles.find(role => role === surgenceListed.id);
-          const imageName = isSurgenceListed ? "surgence-listed.png" : "battalion-leader.png";
+          const isSpecialist= roles.find(role => role === surgenceListed.id);
+          const isAgent = roles.find(role => role === surgenceListed.id);
+          const imageName = isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
 
           // Build the Tweet-Button
           const row = new ActionRowBuilder()
@@ -51,7 +55,7 @@ client.on('interactionCreate', async interaction => {
 
             if(isBattalionLeader) { // Check if Battalion Leader
               await interaction.deferReply();
-              const attachment = await getAttachment(avatar, user, false, imageName);
+              const attachment = await getAttachment(avatar, user, 1, imageName);
   
               const embed = {
                 color: 0x3597C7,
@@ -65,7 +69,7 @@ client.on('interactionCreate', async interaction => {
   
             } else if(isSurgenceListed) { // Check if Surgence Listed
               await interaction.deferReply();
-              const attachment = await getAttachment(avatar, user, true, imageName);
+              const attachment = await getAttachment(avatar, user, 2, imageName);
 
               const embed = {
                 color: 0x4ABBBB,
@@ -77,8 +81,36 @@ client.on('interactionCreate', async interaction => {
               console.log(user.username + "#" + user.discriminator +" claimed the Surgence Listed promotion image!");
               await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
 
+            } else if(isSpecialist) { // Check if Specialist
+              await interaction.deferReply();
+              const attachment = await getAttachment(avatar, user, 3, imageName);
+
+              const embed = {
+                color: 0xFAC088,
+                image: {
+                  url: "attachment://" + imageName,
+                }
+              };
+
+              console.log(user.username + "#" + user.discriminator +" claimed the Specialist promotion image!");
+              await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
+
+            } else if(isAgent) { // Check if Agent
+              await interaction.deferReply();
+              const attachment = await getAttachment(avatar, user, 4, imageName);
+
+              const embed = {
+                color: 0xE26D87,
+                image: {
+                  url: "attachment://" + imageName,
+                }
+              };
+
+              console.log(user.username + "#" + user.discriminator +" claimed the Agent promotion image!");
+              await interaction.editReply({ content: "Congratulation <@" + user.id + ">, this is your promotion image! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });
+
             } else { // If user isn't promotable
-              await interaction.reply({ content: "You can't generate a promotion image for yourself because you aren't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
+              await interaction.reply({ content: "You can't generate a promotion image for yourself because you don't have a promotion role!", ephemeral: true }); 
           }
         }
       } catch (error) {
@@ -94,16 +126,20 @@ client.on('interactionCreate', async interaction => {
 
       let battalionLeader = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "battalion leader");
       let surgenceListed = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "surgence listed");
+      let specialist = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "specialist");
+      let agent = interaction.guild.roles.cache.find(r => r.name.toLowerCase() === "agent");
 
       try {
         // Check if roles are defined
-        if(battalionLeader == undefined || surgenceListed == undefined) {
-          await interaction.reply({ content: "The Battalion Leader and/or Surgence Listed roles aren't defined!", ephemeral: true }); 
+        if(battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined) {
+          await interaction.reply({ content: "Some promotion roles aren't defined!", ephemeral: true }); 
         } else {
           const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
           const isBattalionLeader = roles.find(role => role === battalionLeader.id);
           const isSurgenceListed = roles.find(role => role === surgenceListed.id);
-          const imageName = isSurgenceListed ? "surgence-listed.png" : "battalion-leader.png";
+          const isSpecialist= roles.find(role => role === surgenceListed.id);
+          const isAgent = roles.find(role => role === surgenceListed.id);
+          const imageName = isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
 
           // Build the Tweet-Button
           const row = new ActionRowBuilder()
@@ -116,7 +152,7 @@ client.on('interactionCreate', async interaction => {
 
           if(isBattalionLeader) { // Check if Battalion Leader
             await interaction.deferReply();
-            const attachment = await getAttachment(avatar, user, false, imageName);
+            const attachment = await getAttachment(avatar, user, 1, imageName);
 
             const embed = {
               color: 0x3597C7,
@@ -130,7 +166,7 @@ client.on('interactionCreate', async interaction => {
 
           } else if(isSurgenceListed) { // Check if Surgence Listed
             await interaction.deferReply();
-            const attachment = await getAttachment(avatar, user, true, imageName);
+            const attachment = await getAttachment(avatar, user, 2, imageName);
 
             const embed = {
               color: 0x4ABBBB,
@@ -142,8 +178,36 @@ client.on('interactionCreate', async interaction => {
             console.log(user.username + "#" + user.discriminator +" was promoted to Surgence Listed (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
             await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });  
 
+          } else if(isSpecialist) { // Check if Specialist
+            await interaction.deferReply();
+            const attachment = await getAttachment(avatar, user, 3, imageName);
+
+            const embed = {
+              color: 0xFAC088,
+              image: {
+                url: "attachment://" + imageName,
+              }
+            };
+
+            console.log(user.username + "#" + user.discriminator +" was promoted to Specialist (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
+            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });  
+
+          } else if(isAgent) { // Check if Agent
+            await interaction.deferReply();
+            const attachment = await getAttachment(avatar, user, 4, imageName);
+
+            const embed = {
+              color: 0xE26D87,
+              image: {
+                url: "attachment://" + imageName,
+              }
+            };
+
+            console.log(user.username + "#" + user.discriminator +" was promoted to Agent (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
+            await interaction.editReply({ content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.", embeds: [embed], files: [attachment], components: [row] });  
+
           } else { // If user isn't promotable
-            await interaction.reply({ content: "You can't generate a promotion image for " + user.username + "#" + user.discriminator + " because he isn't a Battalion Leader or Surgence Listed!", ephemeral: true }); 
+            await interaction.reply({ content: "You can't generate a promotion image for " + user.username + "#" + user.discriminator + " because he hasn't a promotion role!", ephemeral: true }); 
           }
         }
       } catch (error) {
@@ -157,8 +221,8 @@ client.on('interactionCreate', async interaction => {
 client.login(process.env.DISCORD_BOT_TOKEN);
 
 // Generates the attachement
-async function getAttachment(avatar : string, user : any, isSurgenceListed : boolean, imageName : string) {
-  const _htmlTemplate = getHtmlTemplate(avatar, user.username + "#" + user.discriminator, isSurgenceListed);
+async function getAttachment(avatar : string, user : any, imageId : number, imageName : string) {
+  const _htmlTemplate = getHtmlTemplate(avatar, user.username + "#" + user.discriminator, imageId);
 
   const images = await nodeHtmlToImage({
     html: _htmlTemplate,

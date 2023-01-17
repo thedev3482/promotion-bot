@@ -1,4 +1,4 @@
-export function getHtmlTemplate(avatar : string, discordId : string, isSurgenceListed : boolean) {
+export function getHtmlTemplate(avatar : string, discordId : string, imageId : number) {
     return `
     <html lang="en">
         <head>
@@ -16,7 +16,7 @@ export function getHtmlTemplate(avatar : string, discordId : string, isSurgenceL
                 .banner {
                     width: 100%;
                     height: 100%;
-                    background-image: url(${isSurgenceListed ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/surgence-listed.png" : "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/battalion-leader.png"});
+                    background-image: url(${imageId == 1 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/battalion-leader.png" : imageId == 2 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/surgence-listed.png" : imageId == 3 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/specialist.png" : imageId == 4 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/agent.png" : ""});
                     background-size: cover;
                 }
                 .profile {
