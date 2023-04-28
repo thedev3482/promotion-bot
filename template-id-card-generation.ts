@@ -1,5 +1,6 @@
-export function getHtmlTemplate(avatar : string, discordId : string, imageId : number) {
-    return `
+export function getIdCardTemplate(avatar: string, discordId: string, imageId: number) {
+    return (
+        `
     <html lang="en">
         <head>
             <meta charset="UTF-8" />
@@ -16,7 +17,17 @@ export function getHtmlTemplate(avatar : string, discordId : string, imageId : n
                 .banner {
                     width: 100%;
                     height: 100%;
-                    background-image: url(${imageId == 1 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/battalion-leader.png" : imageId == 2 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/surgence-listed.png" : imageId == 3 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/specialist.png" : imageId == 4 ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/agent.png" : ""});
+                    background-image: url(${
+                        imageId == 1
+                            ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/battalion-leader.png"
+                            : imageId == 2
+                            ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/surgence-listed.png"
+                            : imageId == 3
+                            ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/specialist.png"
+                            : imageId == 4
+                            ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/agent.png"
+                            : ""
+                    });
                     background-size: cover;
                 }
                 .profile {
@@ -40,13 +51,18 @@ export function getHtmlTemplate(avatar : string, discordId : string, imageId : n
         <body>
             <div class="banner">
                 <div class="profile">
-                    <img src="` + avatar + `" />
+                    <img src="` +
+        avatar +
+        `" />
                 </div>
                 <div class="message">
-                    <h2>` + discordId + `</h2>
+                    <h2>` +
+        discordId +
+        `</h2>
                 </div>
             </div>
         </body>
     </html>
-    `;
+    `
+    );
 }
