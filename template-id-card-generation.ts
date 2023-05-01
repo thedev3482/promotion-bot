@@ -18,7 +18,9 @@ export function getIdCardTemplate(avatar: string, discordId: string, imageId: nu
                     width: 100%;
                     height: 100%;
                     background-image: url(${
-                        imageId == 1
+                        imageId == 0
+                            ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/allies.png"
+                            : imageId == 1
                             ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/battalion-leader.png"
                             : imageId == 2
                             ? "https://raw.githubusercontent.com/animot6792/promotion-bot/main/images/surgence-listed.png"

@@ -62,7 +62,19 @@ export function getBannerTemplate(avatar: string, discordId: string, role: strin
                     margin-top: 5px;
                     left: 1119px;
                     width: 355px;
-                    color: ${role == "Battalion Leader" ? "#3597c7" : role == "Surgence Listed" ? "#4abbbb" : role == "Specialist" ? "#fac088" : "#e26d87"};
+                    color: ${
+                        role == "Team"
+                            ? "#DFCC21"
+                            : role == "Allies"
+                            ? "#BF4BCE"
+                            : role == "Battalion Leader"
+                            ? "#3597c7"
+                            : role == "Surgence Listed"
+                            ? "#4abbbb"
+                            : role == "Specialist"
+                            ? "#fac088"
+                            : "#e26d87"
+                    };
                     text-transform: uppercase;
                     text-align: center;
                     overflow-wrap: break-word;
@@ -70,7 +82,7 @@ export function getBannerTemplate(avatar: string, discordId: string, role: strin
                 .discordRole {
                     font-size: 54px;
                     position: absolute;
-                    top: 93px;
+                    top: 130px;
                     left: 541px;
                     width: 550px;
                     text-transform: uppercase;
