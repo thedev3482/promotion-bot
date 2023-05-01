@@ -42,7 +42,17 @@ client.on("interactionCreate", async (interaction) => {
                 const isSurgenceListed = roles.find((role) => role === surgenceListed.id);
                 const isSpecialist = roles.find((role) => role === specialist.id);
                 const isAgent = roles.find((role) => role === agent.id);
-                const imageName = isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
+                const imageName = isTeam
+                    ? "team.png"
+                    : isAllies
+                    ? "allies.png"
+                    : isBattalionLeader
+                    ? "battalion-leader.png"
+                    : isSurgenceListed
+                    ? "surgence-listed.png"
+                    : isSpecialist
+                    ? "specialist.png"
+                    : "agent.png";
 
                 // Build the Tweet-Button
                 const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel("Tweet").setStyle(ButtonStyle.Link).setURL("https://twitter.com/compose/tweet"));
@@ -204,6 +214,7 @@ client.on("interactionCreate", async (interaction) => {
         const member = interaction.guild.members.cache.get(user.id);
         const roles = member._roles;
 
+        let allies = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "allies");
         let battalionLeader = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "battalion leader");
         let surgenceListed = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "surgence listed");
         let specialist = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "specialist");
@@ -211,20 +222,40 @@ client.on("interactionCreate", async (interaction) => {
 
         try {
             // Check if roles are defined
-            if (battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined) {
+            if (allies == undefined || battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined) {
                 await interaction.reply({ content: "Some promotion roles aren't defined!", ephemeral: true });
             } else {
                 const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
+                const isAllies = roles.find((role) => role === allies.id);
                 const isBattalionLeader = roles.find((role) => role === battalionLeader.id);
                 const isSurgenceListed = roles.find((role) => role === surgenceListed.id);
                 const isSpecialist = roles.find((role) => role === specialist.id);
                 const isAgent = roles.find((role) => role === agent.id);
-                const imageName = isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
+                const imageName = isAllies ? "allies.png" : isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
 
                 // Build the Tweet-Button
                 const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel("Tweet").setStyle(ButtonStyle.Link).setURL("https://twitter.com/compose/tweet"));
 
-                if (isBattalionLeader) {
+                if (isAllies) {
+                    // Check if Battalion Leader
+                    await interaction.deferReply();
+                    const attachment = await getIdCardAttachment(avatar, user, 0, imageName);
+
+                    const embed = {
+                        color: 0xbf4bce,
+                        image: {
+                            url: "attachment://" + imageName,
+                        },
+                    };
+
+                    console.log(user.username + "#" + user.discriminator + " was promoted to Allies (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
+                    await interaction.editReply({
+                        content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.",
+                        embeds: [embed],
+                        files: [attachment],
+                        components: [row],
+                    });
+                } else if (isBattalionLeader) {
                     // Check if Battalion Leader
                     await interaction.deferReply();
                     const attachment = await getIdCardAttachment(avatar, user, 1, imageName);
