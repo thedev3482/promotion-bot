@@ -562,7 +562,8 @@ async function getIdCardAttachment(avatar: string, displayName: string, user: an
 
 // Generates the attachement
 async function getBannerAttachment(avatar: string, user: any, role: string, imageName: string) {
-    const _htmlTemplate = getBannerTemplate(avatar, user.username + "#" + user.discriminator, role);
+    const username = user.discriminator == 0 ? user.username : user.username + "#" + user.discriminator;
+    const _htmlTemplate = getBannerTemplate(avatar, username, role);
 
     const images = await nodeHtmlToImage({
         html: _htmlTemplate,
