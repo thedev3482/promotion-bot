@@ -190,8 +190,6 @@ client.on("interactionCreate", async (interaction) => {
             const member = interaction.guild.members.cache.get(user.id);
             const roles = member._roles;
 
-            console.log(description);
-
             if (description.length > 260) {
                 console.log(username + " entered a description that is too long.");
                 await interaction.reply({ content: "Your description is too long. It may contain a maximum of 260 characters!", ephemeral: true });
