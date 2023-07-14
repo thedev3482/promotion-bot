@@ -73,7 +73,9 @@ export function getBannerTemplate(avatar: string, discordId: string, role: strin
                             ? "#4abbbb"
                             : role == "Specialist"
                             ? "#fac088"
-                            : "#e26d87"
+                            : role == "Agent"
+                            ? "#e26d87"
+                            : "#84CE85"
                     };
                     text-transform: uppercase;
                     text-align: center;

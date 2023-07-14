@@ -30,6 +30,8 @@ export function getIdCardTemplate(avatar: string, displayName: string, discordId
                         ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/agent.png"
                         : imageId == 5
                         ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/team.png"
+                        : imageId == 6
+                        ? "https://raw.githubusercontent.com/animot6792/promotion-bot/master/images/new-cohort.png"
                         : ""
                 });
                 background-size: cover;
@@ -117,7 +119,21 @@ export function getIdCardTemplate(avatar: string, displayName: string, discordId
             </div>
             <div class="role">
                 <span>${
-                    imageId == 0 ? "Allies" : imageId == 1 ? "Battalion Leader" : imageId == 2 ? "Surgence Listed" : imageId == 3 ? "Specialist" : imageId == 4 ? "Agent" : imageId == 5 ? "Team" : ""
+                    imageId == 0
+                        ? "Allies"
+                        : imageId == 1
+                        ? "Battalion Leader"
+                        : imageId == 2
+                        ? "Surgence Listed"
+                        : imageId == 3
+                        ? "Specialist"
+                        : imageId == 4
+                        ? "Agent"
+                        : imageId == 5
+                        ? "Team"
+                        : imageId == 6
+                        ? "New Cohort"
+                        : ""
                 }</span>
             </div>
             <div class="discordId">

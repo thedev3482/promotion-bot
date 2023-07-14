@@ -57,10 +57,11 @@ client.on("interactionCreate", async (interaction) => {
         let surgenceListed = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "surgence listed");
         let specialist = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "specialist");
         let agent = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "agent");
+        let newCohort = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "new cohort");
 
         try {
             // Check if roles are defined
-            if (allies == undefined || battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined) {
+            if (allies == undefined || battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined || newCohort == undefined) {
                 await interaction.reply({ content: "Some promotion roles aren't defined!", ephemeral: true });
             } else {
                 const avatar = "https://cdn.discordapp.com/avatars/" + user.id + "/" + user.avatar + ".png?size=256";
@@ -69,7 +70,18 @@ client.on("interactionCreate", async (interaction) => {
                 const isSurgenceListed = roles.find((role) => role === surgenceListed.id);
                 const isSpecialist = roles.find((role) => role === specialist.id);
                 const isAgent = roles.find((role) => role === agent.id);
-                const imageName = isAllies ? "allies.png" : isBattalionLeader ? "battalion-leader.png" : isSurgenceListed ? "surgence-listed.png" : isSpecialist ? "specialist.png" : "agent.png";
+                const isNewCohort = roles.find((role) => role === newCohort.id);
+                const imageName = isAllies
+                    ? "allies.png"
+                    : isBattalionLeader
+                    ? "battalion-leader.png"
+                    : isSurgenceListed
+                    ? "surgence-listed.png"
+                    : isSpecialist
+                    ? "specialist.png"
+                    : isAgent
+                    ? "agent.png"
+                    : "new-cohort.png";
 
                 // Build the Tweet-Button
                 const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel("Tweet").setStyle(ButtonStyle.Link).setURL("https://twitter.com/compose/tweet"));
@@ -169,6 +181,25 @@ client.on("interactionCreate", async (interaction) => {
                         files: [attachment],
                         components: [row],
                     });
+                } else if (isNewCohort) {
+                    // Check if new cohort
+                    await interaction.deferReply();
+                    const attachment = await getIdCardAttachment(avatar, member.displayName, user, twitter, description, 6, imageName);
+
+                    const embed = {
+                        color: 0x84ce85,
+                        image: {
+                            url: "attachment://" + imageName,
+                        },
+                    };
+
+                    console.log(username + " was promoted to New Cohort (executor: " + interaction.user.username + "#" + interaction.user.discriminator + ")!");
+                    await interaction.editReply({
+                        content: "Congratulation <@" + user.id + ">, you have been promoted! \n\nLet your network know about your journey here in Surgence.",
+                        embeds: [embed],
+                        files: [attachment],
+                        components: [row],
+                    });
                 } else {
                     // If user isn't promotable
                     await interaction.reply({
@@ -200,10 +231,19 @@ client.on("interactionCreate", async (interaction) => {
                 let surgenceListed = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "surgence listed");
                 let specialist = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "specialist");
                 let agent = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "agent");
+                let newCohort = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "new cohort");
 
                 try {
                     // Check if roles are defined
-                    if (team == undefined || allies == undefined || battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined) {
+                    if (
+                        team == undefined ||
+                        allies == undefined ||
+                        battalionLeader == undefined ||
+                        surgenceListed == undefined ||
+                        specialist == undefined ||
+                        agent == undefined ||
+                        newCohort == undefined
+                    ) {
                         console.log("Some promotion roles aren't defined!");
                         await interaction.reply({ content: "Some promotion roles aren't defined!", ephemeral: true });
                     } else {
@@ -214,6 +254,7 @@ client.on("interactionCreate", async (interaction) => {
                         const isSurgenceListed = roles.find((role) => role === surgenceListed.id);
                         const isSpecialist = roles.find((role) => role === specialist.id);
                         const isAgent = roles.find((role) => role === agent.id);
+                        const isNewCohort = roles.find((role) => role === newCohort.id);
                         const imageName = isTeam
                             ? "team.png"
                             : isAllies
@@ -224,7 +265,9 @@ client.on("interactionCreate", async (interaction) => {
                             ? "surgence-listed.png"
                             : isSpecialist
                             ? "specialist.png"
-                            : "agent.png";
+                            : isAgent
+                            ? "agent.png"
+                            : "new-cohort.png";
 
                         // Build the Tweet-Button
                         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel("Tweet").setStyle(ButtonStyle.Link).setURL("https://twitter.com/compose/tweet"));
@@ -343,6 +386,25 @@ client.on("interactionCreate", async (interaction) => {
                                 files: [attachment],
                                 components: [row],
                             });
+                        } else if (isNewCohort) {
+                            // Check if new cohort
+                            await interaction.deferReply();
+                            const attachment = await getIdCardAttachment(avatar, displayName, user, twitter, description, 6, imageName);
+
+                            const embed = {
+                                color: 0x84ce85,
+                                image: {
+                                    url: "attachment://" + imageName,
+                                },
+                            };
+
+                            console.log(username + " claimed the New Cohort promotion image!");
+                            await interaction.editReply({
+                                content: "Congratulation <@" + user.id + ">, this is your id card! \n\nLet your network know about your journey here in Surgence.",
+                                embeds: [embed],
+                                files: [attachment],
+                                components: [row],
+                            });
                         } else {
                             // If user isn't promotable
                             await interaction.reply({ content: "You can't generate a promotion image for yourself because you don't have a promotion role!", ephemeral: true });
@@ -383,10 +445,19 @@ client.on("interactionCreate", async (interaction) => {
             let surgenceListed = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "surgence listed");
             let specialist = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "specialist");
             let agent = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "agent");
+            let newCohort = interaction.guild.roles.cache.find((r) => r.name.toLowerCase() === "new cohort");
 
             try {
                 // Check if roles are defined
-                if (team == undefined || allies == undefined || battalionLeader == undefined || surgenceListed == undefined || specialist == undefined || agent == undefined) {
+                if (
+                    team == undefined ||
+                    allies == undefined ||
+                    battalionLeader == undefined ||
+                    surgenceListed == undefined ||
+                    specialist == undefined ||
+                    agent == undefined ||
+                    newCohort == undefined
+                ) {
                     console.log("Some promotion roles aren't defined!");
                     await interaction.reply({ content: "Some promotion roles aren't defined!", ephemeral: true });
                 } else {
@@ -397,6 +468,7 @@ client.on("interactionCreate", async (interaction) => {
                     const isSurgenceListed = roles.find((role) => role === surgenceListed.id);
                     const isSpecialist = roles.find((role) => role === specialist.id);
                     const isAgent = roles.find((role) => role === agent.id);
+                    const isNewCohort = roles.find((role) => role === newCohort.id);
                     const imageName = isTeam
                         ? "team.png"
                         : isAllies
@@ -407,7 +479,9 @@ client.on("interactionCreate", async (interaction) => {
                         ? "surgence-listed.png"
                         : isSpecialist
                         ? "specialist.png"
-                        : "agent.png";
+                        : isAgent
+                        ? "agent.png"
+                        : "new-cohort.png";
 
                     // Build the Tweet-Button
                     const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel("Tweet").setStyle(ButtonStyle.Link).setURL("https://twitter.com/compose/tweet"));
@@ -520,6 +594,25 @@ client.on("interactionCreate", async (interaction) => {
                         };
 
                         console.log(username + " claimed the Agent banner image!");
+                        await interaction.editReply({
+                            content: "Congratulation <@" + user.id + ">, this is your banner! \n\nLet your network know about your journey here in Surgence.",
+                            embeds: [embed],
+                            files: [attachment],
+                            components: [row],
+                        });
+                    } else if (isNewCohort) {
+                        // Check if new cohort
+                        await interaction.deferReply();
+                        const attachment = await getBannerAttachment(avatar, user, "New Cohort", imageName);
+
+                        const embed = {
+                            color: 0x84ce85,
+                            image: {
+                                url: "attachment://" + imageName,
+                            },
+                        };
+
+                        console.log(username + " claimed the New Cohort banner image!");
                         await interaction.editReply({
                             content: "Congratulation <@" + user.id + ">, this is your banner! \n\nLet your network know about your journey here in Surgence.",
                             embeds: [embed],
